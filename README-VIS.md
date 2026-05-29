@@ -52,7 +52,7 @@ Playball are `landscape=0` = rotated = the bypassed class.)
 | Compiles clean (MISTER_WARP=1) | ✅ |
 | Symmetric barrel on hardware (native 4:3) | ✅ validated 2026-05-28 |
 | Self-tuning sync-delay (no per-core constant) | ✅ |
-| Pre-built `.rbf` released | ⏳ (build from source for now) |
+| Pre-built `.rbf` released | ✅ **v0.2** (sharp-bilinear K=4) |
 
 **Known, NOT a vis_warp issue:**
 - **Twin-stick controls** — mapping the right stick to fire is stock-core
@@ -73,7 +73,7 @@ core's filename and the MRAs' `<rbf>` tag already match.
 
 ### 1. Grab these from this repo's [`releases/`](./releases) folder
 
-- **`RobotronVIS_20260528.rbf`** ← the vis_warp core
+- **`RobotronVIS_20260529.rbf`** ← the vis_warp core (v0.2 — sharp-bilinear K=4)
 - the **`… (vis_warp).mra`** file(s) for the game(s) you want:
   `Robotron 2084 (vis_warp).mra`, `Joust (vis_warp).mra`,
   `Stargate (vis_warp).mra`, `Bubbles (vis_warp).mra`,
@@ -83,7 +83,7 @@ core's filename and the MRAs' `<rbf>` tag already match.
 
 | File | Copy to |
 |---|---|
-| `RobotronVIS_20260528.rbf` | `/media/fat/_Arcade/cores/` |
+| `RobotronVIS_20260529.rbf` | `/media/fat/_Arcade/cores/` |
 | every `… (vis_warp).mra` | `/media/fat/_Arcade/` |
 
 ### 3. ROMs — use your OWN MAME set (not distributed here)
