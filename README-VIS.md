@@ -66,16 +66,73 @@ Playball are `landscape=0` = rotated = the bypassed class.)
 - **Top-of-frame**: fully symmetric now (self-tuning sync-delay); no
   residual asymmetry on this core.
 
-## How to use / build
+## Install — no Quartus needed (the easy way)
+
+**Everything is pre-named to just work. You do NOT rename anything.** The
+core's filename and the MRAs' `<rbf>` tag already match.
+
+### 1. Grab these from this repo's [`releases/`](./releases) folder
+
+- **`RobotronVIS_20260528.rbf`** ← the vis_warp core
+- the **`… (vis_warp).mra`** file(s) for the game(s) you want:
+  `Robotron 2084 (vis_warp).mra`, `Joust (vis_warp).mra`,
+  `Stargate (vis_warp).mra`, `Bubbles (vis_warp).mra`,
+  `Splat! (vis_warp).mra`, `Alien Arena (Stargate upgrade) (vis_warp).mra`
+
+### 2. Copy to your MiSTer SD card — exact folders
+
+| File | Copy to |
+|---|---|
+| `RobotronVIS_20260528.rbf` | `/media/fat/_Arcade/cores/` |
+| every `… (vis_warp).mra` | `/media/fat/_Arcade/` |
+
+### 3. ROMs — use your OWN MAME set (not distributed here)
+
+Put the matching zip in **`/media/fat/games/mame/`**:
+
+| Game | ROM zip |
+|---|---|
+| Robotron 2084 | `robotron.zip` |
+| Joust | `joust.zip` |
+| Stargate | `stargate.zip` |
+| Bubbles | `bubbles.zip` |
+| Splat! | `splat.zip` |
+| Alien Arena | `alienar.zip` |
+
+(Same ROM zips the stock Robotron core uses — these MRAs only change the
+warp, not the ROM data.)
+
+### 4. Run it
+
+MiSTer menu → **Arcade** → pick **"Robotron 2084 (vis_warp)"** (or any
+`(vis_warp)` title). It boots warped. The `(vis_warp)` entries sit right
+next to your normal ones — pick the `(vis_warp)` for curved, the plain one
+for flat. Nothing collides, nothing to configure to get the warp.
+
+### 5. Best look on HDMI (optional polish)
+
+- Leave the **scandoubler OFF** — ascal scales the warped native frame.
+  (Scandoubler ON feeds the warp doubled lines it can't fully reach.)
+- OSD → **Video Processing** → Scaler filter = **Sharp Bilinear**, then add
+  **scanlines** + **shadowmask** to taste. (That's the second screenshot
+  above — warp + mask stacked.)
+
+> Only the six landscape Williams games are shipped as `(vis_warp)` MRAs.
+> Sinistar and Playball rotate (vertical) and bypass SITE C vis_warp, so
+> they're intentionally NOT in the vis_warp set — use the stock core for
+> those.
+
+---
+
+## Build from source (advanced)
 
 1. Quartus 17.0.2 Lite → open `Arcade-Robotron.qpf` → compile.
-2. Drop the `.rbf` from `output_files/` onto SD `_Arcade/cores/`.
-3. Use the standard Robotron MRA; ROM from your own MAME set.
-4. Load. Native warp shows symmetric. Dress via OSD: scaler filter →
-   scanlines → shadowmask.
+2. The `.rbf` lands in `output_files/`. Drop it on SD `_Arcade/cores/`.
+3. Use the `(vis_warp)` MRA; ROM from your own MAME set.
+4. Load. Native warp shows symmetric. Dress via OSD.
 
-To disable the warp: remove `MISTER_WARP=1` from the `.qsf`, recompile →
-bit-identical to upstream Robotron.
+To disable the warp: remove `MISTER_WARP=1` from `Arcade-Robotron.qsf`,
+recompile → bit-identical to upstream Robotron.
 
 ## Credits
 
