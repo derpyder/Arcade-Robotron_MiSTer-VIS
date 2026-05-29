@@ -130,6 +130,11 @@ for flat. Nothing collides, nothing to configure to get the warp.
 2. The `.rbf` lands in `output_files/`. Drop it on SD `_Arcade/cores/`.
 3. Use the `(vis_warp)` MRA; ROM from your own MAME set.
 4. Load. Native warp shows symmetric. Dress via OSD.
+5. **Change bow or sharpness:** edit `reg_curvature` (bow) and/or
+   `reg_sharpness` (sharp-bilinear K) in `sys/vis_warp.vhd` — both 3-bit —
+   then recompile. This build ships **curvature k=2, sharpness K=4**. Full
+   encoding tables + tuning tips live in the framework's
+   [`ADOPTING-A-CORE.md`, Step 5](https://github.com/derpyder/misterfpga_vis_warp/blob/main/ADOPTING-A-CORE.md).
 
 To disable the warp: remove `MISTER_WARP=1` from `Arcade-Robotron.qsf`,
 recompile → bit-identical to upstream Robotron.
