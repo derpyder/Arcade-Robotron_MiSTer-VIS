@@ -4,7 +4,7 @@ vis_warp-enabled fork of [`MiSTer-devel/Arcade-Robotron_MiSTer`](https://github.
 
 **This is the first validated consumer core for vis_warp** — barrel-warp
 working symmetrically on a real arcade game, on hardware. The framework
-lives at the [vis_warp repo](https://github.com/derpyder/vis_warp); start
+lives at the [vis_warp framework repo](https://github.com/derpyder/misterfpga_vis_warp); start
 there for the architecture, the adoption pipeline (`ADOPTING-A-CORE.md`),
 and the roadmap.
 
