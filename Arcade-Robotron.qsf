@@ -52,6 +52,11 @@ set_global_assignment -name SEED 1
 
 set_global_assignment -name VERILOG_MACRO "MISTER_FB=1"
 
+# vis_warp opt-in (framework barrel-distortion). Robotron is landscape
+# (no_rotate=1) so SITE C vis_warp reaches the screen. Curvature/enable
+# default hardcoded in sys/vis_warp.vhd until v4 userland.
+set_global_assignment -name VERILOG_MACRO "MISTER_WARP=1"
+
 #enable it only if 8bit indexed mode is used in core
 #set_global_assignment -name VERILOG_MACRO "MISTER_FB_PALETTE=1"
 

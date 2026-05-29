@@ -359,6 +359,7 @@ always@(posedge clk_sys) begin
 
 `ifndef MISTER_DEBUG_NOHDMI
 	shadowmask_wr <= 0;
+	vis_warp_cmd_wr <= 0;
 `endif
 
 	if(~io_uio) begin
@@ -485,6 +486,7 @@ always@(posedge clk_sys) begin
 			end
 `ifndef MISTER_DEBUG_NOHDMI
 			if(cmd == 'h3E) {shadowmask_wr,shadowmask_data} <= {1'b1, io_din};
+			if(cmd == 'h45) {vis_warp_cmd_wr, vis_warp_cmd_data} <= {1'b1, io_din};   // VIS_WARP config (SITE C)
 			if(cmd == 'h40) begin
 				case(cnt[3:0])
 					0: io_dout_sys <= {arxy, arx};
@@ -1343,6 +1345,53 @@ assign HDMI_TX_D  = hdmi_out_d;
 	);
 `endif
 
+// ====== vis_warp @ SITE C (pre-scanlines, source-res, clk_vid) ======
+// Robotron is a landscape Williams game (landscape=1 → no_rotate=1 →
+// FB_EN=0), so ASCAL consumes its LIVE input and vis_warp's output
+// reaches the screen — unlike rotated cores (Galaga) where the DDR
+// framebuffer path bypasses the live input. Verified by static read
+// 2026-05-28. Macro-gated; cores opt in via .qsf VERILOG_MACRO.
+reg  [15:0] vis_warp_cmd_data;
+reg         vis_warp_cmd_wr = 0;
+
+`ifdef MISTER_WARP
+wire [7:0] vw_r, vw_g, vw_b;
+wire       vw_hs, vw_vs, vw_de;
+
+vis_warp u_vis_warp_siteC
+(
+	.clk_sys     (clk_sys),
+	.clk_in      (clk_vid),
+	.clk_out     (clk_vid),
+	.cmd_wr      (vis_warp_cmd_wr),
+	.cmd_in      (vis_warp_cmd_data),
+	.ce_pix_in   (ce_pix),
+	.r_in        (r_out),
+	.g_in        (g_out),
+	.b_in        (b_out),
+	.hs_in       (hs_fix),
+	.vs_in       (vs_fix),
+	.de_in       (de_emu),
+	.ce_pix_out  (),
+	.r_out       (vw_r),
+	.g_out       (vw_g),
+	.b_out       (vw_b),
+	.hs_out      (vw_hs),
+	.vs_out      (vw_vs),
+	.de_out      (vw_de)
+);
+
+wire [23:0] sl_din    = vw_de ? {vw_r, vw_g, vw_b} : 24'd0;
+wire        sl_hs_in  = vw_hs;
+wire        sl_vs_in  = vw_vs;
+wire        sl_de_in  = vw_de;
+`else
+wire [23:0] sl_din    = de_emu ? {r_out, g_out, b_out} : 24'd0;
+wire        sl_hs_in  = hs_fix;
+wire        sl_vs_in  = vs_fix;
+wire        sl_de_in  = de_emu;
+`endif
+
 wire [23:0] vga_data_sl;
 wire        vga_de_sl, vga_ce_sl, vga_vs_sl, vga_hs_sl;
 scanlines #(0) VGA_scanlines
@@ -1350,10 +1399,10 @@ scanlines #(0) VGA_scanlines
 	.clk(clk_vid),
 
 	.scanlines(scanlines),
-	.din(de_emu ? {r_out, g_out, b_out} : 24'd0),
-	.hs_in(hs_fix),
-	.vs_in(vs_fix),
-	.de_in(de_emu),
+	.din(sl_din),
+	.hs_in(sl_hs_in),
+	.vs_in(sl_vs_in),
+	.de_in(sl_de_in),
 	.ce_in(ce_pix),
 
 	.dout(vga_data_sl),
