@@ -4,9 +4,20 @@ vis_warp-enabled fork of [`MiSTer-devel/Arcade-Robotron_MiSTer`](https://github.
 
 **This is the first validated consumer core for vis_warp** — barrel-warp
 working symmetrically on a real arcade game, on hardware. The framework
-lives at the vis_warp repo (the Template_MiSTer-VIS fork); start there for
-the architecture, the adoption pipeline (`ADOPTING-A-CORE.md`), and the
-roadmap.
+lives at the [vis_warp repo](https://github.com/derpyder/vis_warp); start
+there for the architecture, the adoption pipeline (`ADOPTING-A-CORE.md`),
+and the roadmap.
+
+## On hardware
+
+| Title screen — barrel warp | High-score screen — warp + CRT shadowmask |
+|---|---|
+| ![Robotron title with vis_warp](docs/screenshots/robotron-warp-title.jpg) | ![Robotron high-score with vis_warp + shadowmask](docs/screenshots/robotron-warp-crt-mask.jpg) |
+
+Left: the coin border and title bow symmetrically under the barrel warp
+(native 4:3, self-tuning sync-delay — full top-to-bottom symmetry). Right:
+the same warp with a CRT shadowmask stacked downstream — the mask border
+curves *with* the tube. Shot on a DE10-nano over HDMI.
 
 ## What's different from upstream Robotron
 
